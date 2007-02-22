@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {changeAngle = id; changeStyle = id; changeType = id; }; 
+            CLASS = CTGradientView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

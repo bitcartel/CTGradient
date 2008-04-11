@@ -5,7 +5,7 @@
 //  Copyright (c) 2007 Chad Weider.
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
 //  
-//  Version: 1.7
+//  Version: 1.8
 
 #import <Cocoa/Cocoa.h>
 

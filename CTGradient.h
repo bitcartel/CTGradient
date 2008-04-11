@@ -4,8 +4,8 @@
 //  Created by Chad Weider on 2/14/07.
 //  Copyright (c) 2007 Chad Weider.
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
-//
-//  Version: 1.6
+//  
+//  Version: 1.7
 
 #import <Cocoa/Cocoa.h>
 

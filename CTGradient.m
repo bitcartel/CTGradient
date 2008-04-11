@@ -5,7 +5,7 @@
 //  Copyright (c) 2007 Chad Weider.
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
 //
-//  Version: 1.6
+//  Version: 1.7
 
 #import "CTGradient.h"
 
@@ -685,7 +685,7 @@ static void resolveHSV(float *color1, float *color2);
   //Calls to CoreGraphics
   CGContextRef currentContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
   CGContextSaveGState(currentContext);
-	  #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
+	  #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_4
 		CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
 	  #else
 		CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
@@ -702,7 +702,7 @@ static void resolveHSV(float *color1, float *color2);
 
 - (void)radialFillRect:(NSRect)rect
   {
-  CGPoint startPoint , endPoint;
+  CGPoint startPoint, endPoint;
   float startRadius, endRadius;
   float scalex, scaley, transx, transy;
   
@@ -808,7 +808,7 @@ static void resolveHSV(float *color1, float *color2);
   }
 
 - (void)addElement:(CTGradientElement *)newElement
-{
+  {
   if(elementList == nil || newElement->position < elementList->position)	//inserting at beginning of list
 	{
 	CTGradientElement *tmpNext = elementList;
@@ -1007,7 +1007,7 @@ void linearEvaluation (void *info, const float *in, float *out)
   	out[1] = (color2->green - color1->green)*position + color1->green;
   	out[2] = (color2->blue  - color1->blue )*position + color1->blue;
   	out[3] = (color2->alpha - color1->alpha)*position + color1->alpha;
-  	}
+	}
   }
 
 

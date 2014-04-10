@@ -13,7 +13,7 @@
 	{
 	CTGradient *myGradient;
 	
-	float angle;
+	CGFloat angle;
 	bool  isRadial;
 	}
 

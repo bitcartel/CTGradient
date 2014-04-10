@@ -10,6 +10,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+// CGFloat is only available in 10.5+
+#ifndef CGFLOAT_DEFINED
+typedef float CGFloat;
+#define CGFLOAT_DEFINED
+#endif
+
 typedef struct _CTGradientElement 
 	{
 	CGFloat red, green, blue, alpha;
@@ -51,23 +57,23 @@ typedef enum  _CTBlendingMode
 + (id)rainbowGradient;
 + (id)hydrogenSpectrumGradient;
 
-- (CTGradient *)gradientWithAlphaComponent:(float)alpha;
+- (CTGradient *)gradientWithAlphaComponent:(CGFloat)alpha;
 
-- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position;	//positions given relative to [0,1]
+- (CTGradient *)addColorStop:(NSColor *)color atPosition:(CGFloat)position;	//positions given relative to [0,1]
 - (CTGradient *)removeColorStopAtIndex:(unsigned)index;
-- (CTGradient *)removeColorStopAtPosition:(float)position;
+- (CTGradient *)removeColorStopAtPosition:(CGFloat)position;
 
 - (CTGradientBlendingMode)blendingMode;
 - (NSColor *)colorStopAtIndex:(unsigned)index;
-- (NSColor *)colorAtPosition:(float)position;
+- (NSColor *)colorAtPosition:(CGFloat)position;
 
 
 - (void)drawSwatchInRect:(NSRect)rect;
-- (void)fillRect:(NSRect)rect angle:(float)angle;					//fills rect with axial gradient
+- (void)fillRect:(NSRect)rect angle:(CGFloat)angle;					//fills rect with axial gradient
 																	//	angle in degrees
 - (void)radialFillRect:(NSRect)rect;								//fills rect with radial gradient
 																	//  gradient from center outwards
-- (void)fillBezierPath:(NSBezierPath *)path angle:(float)angle;
+- (void)fillBezierPath:(NSBezierPath *)path angle:(CGFloat)angle;
 - (void)radialFillBezierPath:(NSBezierPath *)path;
 
 @end

@@ -28,7 +28,7 @@
   [super dealloc];
   }
 
-- (bool)isOpaque
+- (BOOL)isOpaque
   {
   return NO;
   }

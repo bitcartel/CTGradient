@@ -54,7 +54,7 @@ static void resolveHSV(CGFloat *color1, CGFloat *color2);
   {
   CGFunctionRelease(gradientFunction);
   
-  CTGradientElement *elementToRemove = elementList;
+  CTGradientElement *elementToRemove;
   while(elementList != nil)
 	{
 	elementToRemove = elementList;
@@ -1219,6 +1219,8 @@ void transformRGB_HSV(CGFloat *components) //H,S,B -> R,G,B
 		H = 60*(B-R)/(MAX-MIN)+120;
 	else if(MAX == B)
 		H = 60*(R-G)/(MAX-MIN)+240;
+	else
+		H = 0;
 	
 	S = MAX == 0 ? 0 : 1 - MIN/MAX;
 	V = MAX;
@@ -1249,6 +1251,7 @@ void transformHSV_RGB(CGFloat *components) //H,S,B -> R,G,B
 		case 3:	R=p;G=q;B=V;	break;
 		case 4:	R=t;G=p;B=V;	break;
 		case 5:	R=V;G=p;B=q;	break;
+		default: R=0;G=0;B=0;	break;
 		}
 	
 	components[0] = R;

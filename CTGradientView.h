@@ -6,19 +6,29 @@
 //  Some rights reserved: <http://creativecommons.org/licenses/by/2.5/>
 //
 
+#if !__has_feature(objc_arc)
+#error This class requires automatic reference counting
+#endif
+
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+@class CTGradient;
+#define View UIView
+#define Rect CGRect
+#define setNeedsDisplay [self setNeedsDisplay]
+#else
 #import <Cocoa/Cocoa.h>
+#define View NSView
+#define Rect NSRect
+#define setNeedsDisplay [self setNeedsDisplay:YES]
+#endif
+
 #import "CTGradient.h"
 
-@interface CTGradientView : NSView
-	{
-	CTGradient *myGradient;
-	
-	float angle;
-	bool  isRadial;
-	}
+@interface CTGradientView : View
 
-- (IBAction)changeType :(id)sender;
-- (IBAction)changeAngle:(id)sender;
-- (IBAction)changeStyle:(id)sender;
+@property(nonatomic, retain) CTGradient *gradient;
+@property(nonatomic, assign) CGFloat angle;
+@property(nonatomic, assign, getter = isRadial) BOOL radial;
 
 @end

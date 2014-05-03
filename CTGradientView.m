@@ -10,93 +10,45 @@
 
 @implementation CTGradientView
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) 
-		{
-		myGradient = [[CTGradient aquaSelectedGradient] retain];
-		
-		angle = 90;
-		isRadial = NO;
-		}
-    return self;
+- (id)initWithFrame:(Rect)frame {
+	self = [super initWithFrame:frame];
+	if (self) {
+		_gradient = [CTGradient rainbowGradient];
+		_angle = 90;
+		_radial = NO;
+	}
+	return self;
 }
 
-- (void)dealloc
-  {
-  [myGradient release];
-  [super dealloc];
-  }
+#if TARGET_OS_IPHONE
+#else
+- (BOOL)isOpaque {
+	return NO;
+}
+#endif
 
-- (bool)isOpaque
-  {
-  return NO;
-  }
-
-- (void)drawRect:(NSRect)rect
-  {
-  CTGradient *aGradient = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:myGradient]];
-  
-  if(isRadial)
-	[aGradient radialFillRect:rect];
-  else
-	[aGradient fillRect:rect angle:angle];
-	//{
-	//rect = NSMakeRect(346,-300,50,600);
-	//NSAffineTransform *transform = [[NSAffineTransform alloc] init];
-	//[transform rotateByDegrees:45];
-	//NSBezierPath *path = [transform transformBezierPath:[NSBezierPath bezierPathWithOvalInRect:rect]];
-	//[aGradient fillBezierPath:path angle:angle];
-	//}
-  }
-
-- (IBAction)changeAngle:(id)sender
-  {
-  angle = 90.0 - [sender floatValue];
-  
-  [self setNeedsDisplay:YES];
-  }
-
-- (IBAction)changeType:(id)sender
-  {
-  if([[[sender selectedCell] title] isEqualToString:@"Axial"])
-	isRadial = NO;
-  else
-	isRadial = YES;
-    
-  [self setNeedsDisplay:YES];
-  }
-
-- (IBAction)changeStyle:(id)sender
-  {
-  [myGradient release];
-  
-  switch([sender indexOfSelectedItem])
-	{
-	case  1: myGradient = [CTGradient aquaSelectedGradient];			break;
-    case  2: myGradient = [CTGradient aquaNormalGradient  ];			break;
-    case  3: myGradient = [CTGradient aquaPressedGradient ];			break;
-    case  4: myGradient = [CTGradient unifiedSelectedGradient];			break;
-    case  5: myGradient = [CTGradient unifiedNormalGradient  ];			break;
-    case  6: myGradient = [CTGradient unifiedPressedGradient ];			break;
-    case  7: myGradient = [CTGradient unifiedDarkGradient    ];			break;
-    case  8: myGradient = [CTGradient sourceListSelectedGradient  ];	break;
-    case  9: myGradient = [CTGradient sourceListUnselectedGradient];	break;
-	case 10: myGradient = [CTGradient rainbowGradient];					break;
-	case 11: myGradient = [CTGradient hydrogenSpectrumGradient];		break;
-	
-	default: myGradient = [CTGradient gradientWithBeginningColor:[NSColor blackColor]
-													 endingColor:[NSColor whiteColor]];
+- (void)drawRect:(Rect)rect {
+	if (self.isRadial) {
+		[self.gradient radialFillRect:rect];
     }
-  
-  [myGradient retain];
-  
-  [self setNeedsDisplay:YES];
-  }
+	else {
+		[self.gradient fillRect:rect angle:self.angle];
+    }
+}
 
-- (void)windowWillClose:(NSNotification *)aNotification
-  {
-  [NSApp terminate:self];
-  }
+- (void)setGradient:(CTGradient *)gradient {
+    _gradient = gradient;
+    setNeedsDisplay;
+}
+
+- (void)setAngle:(CGFloat)angle {
+    _angle = angle;
+    setNeedsDisplay;
+}
+
+- (void)setRadial:(BOOL)radial {
+    _radial = radial;
+    setNeedsDisplay;
+}
 
 @end

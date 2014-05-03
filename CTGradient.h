@@ -5,36 +5,68 @@
 //  Writtin by Chad Weider.
 //
 //  Released into public domain on 4/10/08.
-//  
+//
 //  Version: 1.8
+#if !__has_feature(objc_arc)
+#error This class requires automatic reference counting
+#endif
 
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+
+#define Color UIColor
+#define Rect CGRect
+#define BezierPath UIBezierPath
+
+#define MinX CGRectGetMinX
+#define MidX CGRectGetMidX
+#define MaxX CGRectGetMaxX
+#define MinY CGRectGetMinY
+#define MidY CGRectGetMidY
+#define MaxY CGRectGetMaxY
+#define Width CGRectGetWidth
+#define Height CGRectGetHeight
+#else
 #import <Cocoa/Cocoa.h>
 
-typedef struct _CTGradientElement 
-	{
+#define Color NSColor
+#define Rect NSRect
+#define BezierPath NSBezierPath
+
+#define MinX NSMinX
+#define MidX NSMidX
+#define MaxX NSMaxX
+#define MinY NSMinY
+#define MidY NSMidY
+#define MaxY NSMaxY
+#define Width NSWidth
+#define Height NSHeight
+#endif
+
+typedef struct _CTGradientElement
+{
 	CGFloat red, green, blue, alpha;
 	CGFloat position;
-	
+    
 	struct _CTGradientElement *nextElement;
-	} CTGradientElement;
+} CTGradientElement;
 
-typedef enum  _CTBlendingMode
-	{
+typedef enum  _CTBlendingMode {
 	CTLinearBlendingMode,
 	CTChromaticBlendingMode,
 	CTInverseChromaticBlendingMode
-	} CTGradientBlendingMode;
+} CTGradientBlendingMode;
 
 
 @interface CTGradient : NSObject <NSCopying, NSCoding>
-	{
-	CTGradientElement* elementList;
+{
+	CTGradientElement *elementList;
 	CTGradientBlendingMode blendingMode;
-	
+    
 	CGFunctionRef gradientFunction;
-	}
+}
 
-+ (id)gradientWithBeginningColor:(NSColor *)begin endingColor:(NSColor *)end;
++ (id)gradientWithBeginningColor:(Color *)begin endingColor:(Color *)end;
 
 + (id)aquaSelectedGradient;
 + (id)aquaNormalGradient;
@@ -51,23 +83,23 @@ typedef enum  _CTBlendingMode
 + (id)rainbowGradient;
 + (id)hydrogenSpectrumGradient;
 
-- (CTGradient *)gradientWithAlphaComponent:(float)alpha;
+- (CTGradient *)gradientWithAlphaComponent:(CGFloat)alpha;
 
-- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position;	//positions given relative to [0,1]
-- (CTGradient *)removeColorStopAtIndex:(unsigned)index;
-- (CTGradient *)removeColorStopAtPosition:(float)position;
+- (CTGradient *)addColorStop:(Color *)color atPosition:(CGFloat)position; //positions given relative to [0,1]
+- (CTGradient *)removeColorStopAtIndex:(NSUInteger)index;
+- (CTGradient *)removeColorStopAtPosition:(CGFloat)position;
 
 - (CTGradientBlendingMode)blendingMode;
-- (NSColor *)colorStopAtIndex:(unsigned)index;
-- (NSColor *)colorAtPosition:(float)position;
+- (Color *)colorStopAtIndex:(NSUInteger)index;
+- (Color *)colorAtPosition:(CGFloat)position;
 
 
-- (void)drawSwatchInRect:(NSRect)rect;
-- (void)fillRect:(NSRect)rect angle:(float)angle;					//fills rect with axial gradient
-																	//	angle in degrees
-- (void)radialFillRect:(NSRect)rect;								//fills rect with radial gradient
-																	//  gradient from center outwards
-- (void)fillBezierPath:(NSBezierPath *)path angle:(float)angle;
-- (void)radialFillBezierPath:(NSBezierPath *)path;
+- (void)drawSwatchInRect:(Rect)rect;
+- (void)fillRect:(Rect)rect angle:(CGFloat)angle;                 //fills rect with axial gradient
+//	angle in degrees
+- (void)radialFillRect:(Rect)rect;                              //fills rect with radial gradient
+//  gradient from center outwards
+- (void)fillBezierPath:(BezierPath *)path angle:(CGFloat)angle;
+- (void)radialFillBezierPath:(BezierPath *)path;
 
 @end

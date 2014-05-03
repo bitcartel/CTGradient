@@ -49,12 +49,12 @@ static void resolveHSV(CGFloat *color1, CGFloat *color2);
 - (void)dealloc {
 	CGFunctionRelease(gradientFunction);
     
-	CTGradientElement *elementToRemove = elementList;
-	while (elementList != nil) {
-		elementToRemove = elementList;
-		elementList = elementList->nextElement;
-		free(elementToRemove);
-	}
+	CTGradientElement *elementToRemove;
+    while (elementList != nil) {
+        elementToRemove = elementList;
+        elementList = elementList->nextElement;
+        free(elementToRemove);
+    }
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -1157,7 +1157,7 @@ void inverseChromaticEvaluation(void *info, const CGFloat *in, CGFloat *out) {
 }
 
 void transformRGB_HSV(CGFloat *components) { //H,S,B -> R,G,B
-	CGFloat H, S, V;
+	CGFloat H=0, S=0, V=0;
 	CGFloat R = components[0],
     G = components[1],
     B = components[2];
